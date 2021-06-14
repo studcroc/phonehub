@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { useAppSelector } from "../../app/hooks";
-import axios from "../../axios/axiosPH";
+import { useAppSelector } from "../../hooks";
+import axios from "../../../axios/axiosPH";
 
 type ProductData = {
   id: number;
@@ -34,17 +34,22 @@ const homeSlice = createSlice({
   initialState,
   reducers: {
     setBrandFilter: (state, action: PayloadAction<Array<string>>) => {
-      // const products = useAppSelector((state)=> state.products.productsList);
-      // const filteredProducts = products.filter(item => item.brand in action.payload);
-      // state.displayedProducts = filteredProducts;
+      const products = useAppSelector((state) => state.product.productsList);
+      const filteredProducts = products.filter(
+        (item) => item.brand in action.payload
+      );
+      state.displayedProducts = filteredProducts;
     },
     setPriceFilter: (
       state,
       action: PayloadAction<{ min: number; max: number }>
     ) => {
-      // const products = useAppSelector((state)=> state.products.productsList);
-      // const filteredProducts = products.filter(item => item.price>=action.payload.min && item.price<=action.payload.max);
-      // state.displayedProducts = filteredProducts;
+      const products = useAppSelector((state) => state.product.productsList);
+      const filteredProducts = products.filter(
+        (item) =>
+          item.price >= action.payload.min && item.price <= action.payload.max
+      );
+      state.displayedProducts = filteredProducts;
     },
   },
 });
