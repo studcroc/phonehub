@@ -1,4 +1,6 @@
+import { Container, SimpleGrid } from '@chakra-ui/react';
 import React from 'react';
+import { ProductCard } from '../ProductCard/ProductCard';
 import './HomeRoute.css';
 
 type HomeRouteProps = {
@@ -7,6 +9,17 @@ type HomeRouteProps = {
 
 export const HomeRoute = (props: HomeRouteProps) => {
     return (
-        <h1>This is HomeRoute</h1>
+        <Container maxW="full" padding="0">
+            <SimpleGrid columns={{"sm": 1, "md": 4}} spacing={10} padding={{"sm": "8px", "md": "24px"}}>
+                <ProductCard />
+                <ProductCard />
+                <ProductCard />
+                <ProductCard />
+                <ProductCard />
+                <ProductCard />
+                <ProductCard />
+                <ProductCard />
+            </SimpleGrid>
+        </Container>
     );
 }
