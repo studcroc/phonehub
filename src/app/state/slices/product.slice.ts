@@ -1,21 +1,23 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
+import axiosPH from "../../../axios/axiosPH";
 import { ProductData } from "../../types";
 
 interface ProductState {
   productsList: Array<ProductData>;
   displayed: Array<ProductData>;
+  arrived: boolean;
 }
 
 const initialProductState: ProductState = {
   productsList: [],
   displayed: [],
+  arrived: false,
 };
 
 export const fetchProductsList = createAsyncThunk(
   "products/fetchProductsList",
   async () => {
-    const response = axios.get("");
+    const response = axiosPH.get("/");
     return response;
   }
 );
@@ -45,10 +47,16 @@ export const productSlice = createSlice({
       state.displayed = filteredProducts;
     },
   },
-  extraReducers: {
-    [fetchProductsList.fulfilled.toString()]: (state, action) => {
-      state.productsList = action.payload;
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchProductsList.fulfilled, (state, action) => {
+        console.log(action.payload.data);
+        state.arrived = true;
+        state.productsList = action.payload.data.products;
+      })
+      .addCase(fetchProductsList.pending, (state) => {
+        state.productsList = [];
+      });
   },
 });
 

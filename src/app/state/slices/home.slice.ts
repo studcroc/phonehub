@@ -12,12 +12,12 @@ const homeSlice = createSlice({
   name: "home",
   initialState,
   reducers: {
-    setModalOpen: (state, action: PayloadAction<boolean>) => {
+    setFilterModalOpen: (state, action: PayloadAction<boolean>) => {
       state.filterModalOpen = action.payload;
     },
   },
 });
 
-export const { setModalOpen } = homeSlice.actions;
+export const { setFilterModalOpen } = homeSlice.actions;
 
 export default homeSlice.reducer;
