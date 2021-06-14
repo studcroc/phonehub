@@ -1,10 +1,10 @@
-import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
-import productReducer from './state/slices/productSlice';
+import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
+import productReducer from "./state/slices/product.slice";
 
 export const store = configureStore({
   reducer: {
     product: productReducer,
-  }
+  },
 });
 
 export type AppDispatch = typeof store.dispatch;
