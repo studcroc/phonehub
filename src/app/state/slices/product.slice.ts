@@ -39,12 +39,10 @@ export const productSlice = createSlice({
       if (action.payload.brands.length > 0) {
         products = products.filter((i) => {
           console.log(i.brand);
-
           return action.payload.brands.includes(i.brand);
         });
       }
 
-      console.log(Object.assign(products));
       products = products.filter((i) => {
         console.log(i.price);
         return i.price <= action.payload.max && i.price >= action.payload.min;

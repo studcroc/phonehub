@@ -1,5 +1,4 @@
-import { Checkbox } from "@chakra-ui/checkbox";
-import { Box, Heading as h3, VStack } from "@chakra-ui/layout";
+import { VStack } from "@chakra-ui/layout";
 import {
   Button,
   Modal,
@@ -9,110 +8,29 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { ChangeEvent, FC, useState } from "react";
+import React, { ChangeEvent, FC, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import { setFilterModalOpen } from "../../../../app/state/slices/home.slice";
 import {
   clearFilters,
   setFilters,
 } from "../../../../app/state/slices/product.slice";
-
-interface brandFilterProps {
-  checkboxHandler: (e: ChangeEvent<HTMLInputElement>, brand: string) => void;
-}
-
-interface priceFilterProps {
-  onMinChange: (valueAsString: string, valueAsNumber: number) => void;
-  onMaxChange: (valueAsString: string, valueAsNumber: number) => void;
-  min: number;
-  max: number;
-}
-
-const BrandFilter: FC<brandFilterProps> = (props) => {
-  let brandOptions: any = [];
-  const productsList = useAppSelector((state) => state.product.productsList);
-
-  if (Array.isArray(productsList)) {
-    const brands = productsList.map((item) => item.brand);
-    const uniqueBrands = brands.filter((v, i, a) => a.indexOf(v) === i);
-    brandOptions = uniqueBrands.map((brand) => (
-      <Checkbox
-        onChange={(e) => props.checkboxHandler(e, brand)}
-        key={brand}
-        margin="5px"
-      >
-        {brand}
-      </Checkbox>
-    ));
-  }
-  return (
-    <Box width="100%">
-      <h3 style={{ fontWeight: "bold" }}>Select Brands</h3>
-      {brandOptions}
-    </Box>
-  );
-};
-
-const PriceFilter: FC<priceFilterProps> = (props) => {
-  // let priceOptions: any = [];
-  const productsList = useAppSelector((state) => state.product.productsList);
-  if (!Array.isArray(productsList)) {
-    return <div></div>;
-  }
-  const prices = productsList.map((item) => item.price);
-  const max = Math.max(...prices);
-  const min = Math.min(...prices);
-
-  return (
-    <Box width="100%">
-      <h3 style={{ fontWeight: "bold" }}>Set Price Range</h3>
-      <h4>Minimum:</h4>
-      <NumberInput
-        defaultValue={min}
-        min={0}
-        max={max}
-        step={50}
-        clampValueOnBlur={true}
-        onChange={props.onMinChange}
-        value={props.min}
-      >
-        <NumberInputField />
-        <NumberInputStepper>
-          <NumberIncrementStepper />
-          <NumberDecrementStepper />
-        </NumberInputStepper>
-      </NumberInput>
-      <h4>Maximum:</h4>
-      <NumberInput
-        defaultValue={max}
-        min={0}
-        max={max}
-        step={50}
-        clampValueOnBlur={true}
-        onChange={props.onMaxChange}
-        value={props.max}
-      >
-        <NumberInputField />
-        <NumberInputStepper>
-          <NumberIncrementStepper />
-          <NumberDecrementStepper />
-        </NumberInputStepper>
-      </NumberInput>
-    </Box>
-  );
-};
+import BrandFilter from "./BrandFilter";
+import PriceFilter from "./PriceFilter";
 
 const Filters: FC = () => {
+  const productsList = useAppSelector((state) => state.product.productsList);
   const openValue = useAppSelector((state) => state.home.filterModalOpen);
 
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const prices = productsList.map((item) => item.price);
+    setMinPrice(Math.min(...prices));
+    setMaxPrice(Math.max(...prices));
+  }, [productsList]);
 
   const { isOpen, onClose } = useDisclosure({
     defaultIsOpen: false,
@@ -122,15 +40,15 @@ const Filters: FC = () => {
     },
   });
 
-  const selectedBrands: Array<string> = [];
+  const [brands, selectBrands] = useState<Array<string>>([]);
   const brandCheckboxHandler = (
     e: ChangeEvent<HTMLInputElement>,
     brand: string
   ) => {
     if (e.target.checked === true) {
-      selectedBrands.push(brand);
+      selectBrands([...brands, brand]);
     } else {
-      selectedBrands.splice(selectedBrands.indexOf(brand), 1);
+      selectBrands(brands.filter((b) => b !== brand));
     }
   };
 
@@ -148,12 +66,14 @@ const Filters: FC = () => {
     const min = minPrice;
     const max = maxPrice;
     console.log("SetFilters", min, max);
-    dispatch(setFilters({ brands: selectedBrands, min: min, max: max }));
+    dispatch(setFilters({ brands: brands, min: min, max: max }));
     onClose();
   };
 
   const clearFilterHandler = () => {
     console.log("Clear filters");
+    selectBrands([]);
+    setMinPrice(0);
     dispatch(clearFilters);
     onClose();
   };
@@ -166,7 +86,10 @@ const Filters: FC = () => {
         <ModalCloseButton />
         <ModalBody>
           <VStack>
-            <BrandFilter checkboxHandler={brandCheckboxHandler} />
+            <BrandFilter
+              selectedBrands={brands}
+              checkboxHandler={brandCheckboxHandler}
+            />
             <PriceFilter
               onMinChange={minPriceChangeHandler}
               min={minPrice}
