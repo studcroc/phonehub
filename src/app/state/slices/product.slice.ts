@@ -29,28 +29,38 @@ export const productSlice = createSlice({
     updateProductsList: (state, action: PayloadAction<Array<ProductData>>) => {
       state.productsList = action.payload;
     },
-    setBrandFilter: (state, action: PayloadAction<Array<string>>) => {
-      const products = state.productsList;
-      const filteredProducts = products.filter(
-        (i) => i.brand in action.payload
-      );
-      state.displayed = filteredProducts;
-    },
-    setPriceFilter: (
+    setFilters: (
       state,
-      action: PayloadAction<{ min: number; max: number }>
+      action: PayloadAction<{ brands: Array<string>; min: number; max: number }>
     ) => {
-      const products = state.productsList;
-      const filteredProducts = products.filter(
-        (i) => i.price >= action.payload.min && i.price <= action.payload.max
-      );
-      state.displayed = filteredProducts;
+      console.log(action.payload);
+
+      let products = state.productsList;
+      if (action.payload.brands.length > 0) {
+        products = products.filter((i) => {
+          console.log(i.brand);
+
+          return action.payload.brands.includes(i.brand);
+        });
+      }
+
+      console.log(Object.assign(products));
+      products = products.filter((i) => {
+        console.log(i.price);
+        return i.price <= action.payload.max && i.price >= action.payload.min;
+      });
+      // }
+      console.log(products);
+      state.displayed = products;
+    },
+    clearFilters: (state) => {
+      state.displayed = state.productsList;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchProductsList.fulfilled, (state, action) => {
-        console.log(action.payload.data);
+        console.log(action.payload.data.products);
         state.arrived = true;
         state.productsList = action.payload.data.products;
       })
@@ -60,7 +70,7 @@ export const productSlice = createSlice({
   },
 });
 
-export const { updateProductsList, setBrandFilter, setPriceFilter } =
+export const { updateProductsList, setFilters, clearFilters } =
   productSlice.actions;
 
 const productReducer = productSlice.reducer;
