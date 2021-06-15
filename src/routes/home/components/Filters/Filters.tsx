@@ -8,14 +8,14 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useDisclosure,
+  useDisclosure
 } from "@chakra-ui/react";
 import React, { ChangeEvent, FC, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import { setFilterModalOpen } from "../../../../app/state/slices/home.slice";
 import {
   clearFilters,
-  setFilters,
+  setFilters
 } from "../../../../app/state/slices/product.slice";
 import BrandFilter from "./BrandFilter";
 import PriceFilter from "./PriceFilter";
@@ -74,7 +74,7 @@ const Filters: FC = () => {
     console.log("Clear filters");
     selectBrands([]);
     setMinPrice(0);
-    dispatch(clearFilters);
+    dispatch(clearFilters());
     onClose();
   };
 
