@@ -17,8 +17,8 @@ const initialProductState: ProductState = {
 export const fetchProductsList = createAsyncThunk(
   "products/fetchProductsList",
   async () => {
-    const response = axiosPH.get("/");
-    return response;
+    const response = await axiosPH.get("/");
+    return response.data;
   }
 );
 
@@ -50,9 +50,10 @@ export const productSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchProductsList.fulfilled, (state, action) => {
-        console.log(action.payload.data);
+        console.log(action.payload.products);
         state.arrived = true;
-        state.productsList = action.payload.data.products;
+        state.productsList = action.payload.products;
+        state.displayed = action.payload.products;
       })
       .addCase(fetchProductsList.pending, (state) => {
         state.productsList = [];
