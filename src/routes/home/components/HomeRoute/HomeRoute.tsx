@@ -1,8 +1,9 @@
 import { Button, Container, SimpleGrid } from "@chakra-ui/react";
 import React, { useEffect } from "react";
-import { useAppDispatch } from "../../../../app/hooks";
-import { fetchProductsList } from "../../../../app/state/slices/product.slice";
+import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import { setFilterModalOpen } from "../../../../app/state/slices/home.slice";
+import { fetchProductsList } from "../../../../app/state/slices/product.slice";
+import { ProductData } from "../../../../app/types";
 import Filters from "../Filters/Filters";
 import { ProductCard } from "../ProductCard/ProductCard";
 import "./HomeRoute.css";
@@ -16,9 +17,11 @@ export const HomeRoute = (props: HomeRouteProps) => {
     dispatch(setFilterModalOpen(true));
   };
 
+  const displayedProducts: Array<ProductData> = useAppSelector((state => state.product.displayed));
+
   useEffect(() => {
     dispatch(fetchProductsList());
-  });
+  }, [dispatch]);
 
   return (
     <Container maxW="full" padding="0">
@@ -29,14 +32,9 @@ export const HomeRoute = (props: HomeRouteProps) => {
         spacing={10}
         padding={{ sm: "8px", md: "24px" }}
       >
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
+        {displayedProducts.map((product, index) => {
+          return <ProductCard product={product} key={product.id} />
+        })}
       </SimpleGrid>
     </Container>
   );
