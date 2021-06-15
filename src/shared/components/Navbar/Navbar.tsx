@@ -1,19 +1,12 @@
-import { Box, Container, Icon } from "@chakra-ui/react";
+import { Container, Icon } from "@chakra-ui/react";
 import React from "react";
 import { BiHomeSmile } from "react-icons/bi";
-import { IoCartOutline, IoFilterSharp } from "react-icons/io5";
-import { useAppDispatch } from "../../../app/hooks";
-import { setFilterModalOpen } from "../../../app/state/slices/home.slice";
+import { IoCartOutline } from "react-icons/io5";
 import "./Navbar.css";
 
 type NavbarProps = {};
 
 export const Navbar = (props: NavbarProps) => {
-
-    const dispatch = useAppDispatch();
-    const openFilterHandler = () => {
-        dispatch(setFilterModalOpen(true));
-      };
       
   return (
     <Container
@@ -30,10 +23,7 @@ export const Navbar = (props: NavbarProps) => {
       justifyContent="space-between"
     >
       <Icon as={BiHomeSmile} fontSize="xx-large" cursor="pointer" />
-      <Box>
-        <Icon as={IoFilterSharp} fontSize="xx-large" marginRight="24px" onClick={openFilterHandler} cursor="pointer" />
-        <Icon as={IoCartOutline} fontSize="xx-large" cursor="pointer" />
-      </Box>
+      <Icon as={IoCartOutline} fontSize="xx-large" cursor="pointer" />
     </Container>
   );
 };
