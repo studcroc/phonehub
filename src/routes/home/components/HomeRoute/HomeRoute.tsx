@@ -5,6 +5,7 @@ import { fetchProductsList } from "../../../../app/state/slices/product.slice";
 import { ProductData } from "../../../../app/types";
 import Filters from "../Filters/Filters";
 import { ProductCard } from "../ProductCard/ProductCard";
+import { ToolBar } from "../ToolBar/ToolBar";
 import "./HomeRoute.css";
 
 type HomeRouteProps = {};
@@ -19,7 +20,8 @@ export const HomeRoute = (props: HomeRouteProps) => {
   }, [dispatch]);
 
   return (
-    <Container maxW="full" padding="0" marginTop="56px">
+    <Container maxW="full" padding="0" marginTop={["50px", "60px" ]}>
+      <ToolBar />
       <Filters />
       <SimpleGrid
         columns={{ sm: 1, md: 4 }}
