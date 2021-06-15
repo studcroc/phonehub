@@ -54,6 +54,20 @@ export const productSlice = createSlice({
     clearFilters: (state) => {
       state.displayed = state.productsList;
     },
+    sortProducts: (state, action: PayloadAction<String>) => {
+      if (action.payload === "Select an option") {
+        state.displayed = state.productsList;
+      } else if (action.payload === "Price (Low to High)") {
+        let products = state.displayed;
+        products.sort((a, b) => (a.price > b.price ? 1 : -1));
+        state.displayed = products;
+      } else if (action.payload === "Price (High to Low)") {
+        let products = state.displayed;
+        products.sort((a, b) => (a.price < b.price ? 1 : -1));
+      } else {
+        state.displayed = state.productsList;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -69,7 +83,7 @@ export const productSlice = createSlice({
   },
 });
 
-export const { updateProductsList, setFilters, clearFilters } =
+export const { updateProductsList, setFilters, clearFilters, sortProducts } =
   productSlice.actions;
 
 const productReducer = productSlice.reducer;
