@@ -13,6 +13,7 @@ interface priceFilterProps {
   onMaxChange: (valueAsString: string, valueAsNumber: number) => void;
   min: number;
   max: number;
+  range: Array<number>;
 }
 const PriceFilter: FC<priceFilterProps> = (props) => {
   return (
@@ -21,7 +22,7 @@ const PriceFilter: FC<priceFilterProps> = (props) => {
       <h4>Minimum:</h4>
       <NumberInput
         min={0}
-        max={props.max}
+        max={props.range[1]}
         step={50}
         clampValueOnBlur={true}
         onChange={props.onMinChange}
@@ -36,7 +37,7 @@ const PriceFilter: FC<priceFilterProps> = (props) => {
       <h4>Maximum:</h4>
       <NumberInput
         min={0}
-        max={props.max}
+        max={props.range[1]}
         step={50}
         clampValueOnBlur={true}
         onChange={props.onMaxChange}
