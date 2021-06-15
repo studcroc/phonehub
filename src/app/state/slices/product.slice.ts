@@ -52,7 +52,8 @@ export const productSlice = createSlice({
       state.displayed = products;
     },
     clearFilters: (state) => {
-      state.displayed = state.productsList;
+      const fullList = [...state.productsList];
+      state.displayed = fullList;
     },
     sortProducts: (state, action: PayloadAction<String>) => {
       if (action.payload === "Select an option") {
