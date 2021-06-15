@@ -1,5 +1,4 @@
-import { Checkbox } from "@chakra-ui/checkbox";
-import { Box, Heading as h3, VStack } from "@chakra-ui/layout";
+import { VStack } from "@chakra-ui/layout";
 import {
   Button,
   Modal,
@@ -11,59 +10,27 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { FC } from "react";
+import React, { ChangeEvent, FC, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import { setFilterModalOpen } from "../../../../app/state/slices/home.slice";
-
-const BrandFilters: FC = () => {
-  let brandOptions: any = [];
-  const productsList = useAppSelector((state) => state.product.productsList);
-  if (Array.isArray(productsList)) {
-    const brands = productsList.map((item) => item.brand);
-    const uniqueBrands = brands.filter((v, i, a) => a.indexOf(v) === i);
-    brandOptions = uniqueBrands.map((item) => (
-      <Checkbox key={item} margin="5px">
-        {item}
-      </Checkbox>
-    ));
-  }
-  return (
-    <Box width="100%">
-      <h3 style={{ fontWeight: "bold" }}>Select Brands</h3>
-      {brandOptions}
-    </Box>
-  );
-};
-
-const PriceFilters: FC = () => {
-  let priceOptions: any = [];
-  const productsList = useAppSelector((state) => state.product.productsList);
-  if (Array.isArray(productsList)) {
-    const prices = productsList.map((item) => item.price);
-    const max = Math.max(...prices);
-    const min = Math.min(...prices);
-
-    for (var i = min; i <= max; i += 100) {
-      priceOptions.push(
-        <Checkbox key={i} margin="5px">
-          {i}-{i + 100}
-        </Checkbox>
-      );
-    }
-  }
-
-  return (
-    <Box width="100%">
-      <h3 style={{ fontWeight: "bold" }}>Select Price</h3>
-      {priceOptions}
-    </Box>
-  );
-};
+import {
+  clearFilters,
+  setFilters,
+} from "../../../../app/state/slices/product.slice";
+import BrandFilter from "./BrandFilter";
+import PriceFilter from "./PriceFilter";
 
 const Filters: FC = () => {
+  const productsList = useAppSelector((state) => state.product.productsList);
   const openValue = useAppSelector((state) => state.home.filterModalOpen);
 
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const prices = productsList.map((item) => item.price);
+    setMinPrice(Math.min(...prices));
+    setMaxPrice(Math.max(...prices));
+  }, [productsList]);
 
   const { isOpen, onClose } = useDisclosure({
     defaultIsOpen: false,
@@ -73,6 +40,44 @@ const Filters: FC = () => {
     },
   });
 
+  const [brands, selectBrands] = useState<Array<string>>([]);
+  const brandCheckboxHandler = (
+    e: ChangeEvent<HTMLInputElement>,
+    brand: string
+  ) => {
+    if (e.target.checked === true) {
+      selectBrands([...brands, brand]);
+    } else {
+      selectBrands(brands.filter((b) => b !== brand));
+    }
+  };
+
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(1000);
+
+  const minPriceChangeHandler = (vStr: string, vNum: number) => {
+    setMinPrice(vNum);
+  };
+  const maxPriceChangeHandler = (vStr: string, vNum: number) => {
+    setMaxPrice(vNum);
+  };
+
+  const setFilterHandler = () => {
+    const min = minPrice;
+    const max = maxPrice;
+    console.log("SetFilters", min, max);
+    dispatch(setFilters({ brands: brands, min: min, max: max }));
+    onClose();
+  };
+
+  const clearFilterHandler = () => {
+    console.log("Clear filters");
+    selectBrands([]);
+    setMinPrice(0);
+    dispatch(clearFilters);
+    onClose();
+  };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -81,12 +86,23 @@ const Filters: FC = () => {
         <ModalCloseButton />
         <ModalBody>
           <VStack>
-            <BrandFilters />
-            <PriceFilters />
+            <BrandFilter
+              selectedBrands={brands}
+              checkboxHandler={brandCheckboxHandler}
+            />
+            <PriceFilter
+              onMinChange={minPriceChangeHandler}
+              min={minPrice}
+              onMaxChange={maxPriceChangeHandler}
+              max={maxPrice}
+            />
           </VStack>
         </ModalBody>
         <ModalFooter>
-          <Button>Set Filters</Button>
+          <Button onClick={clearFilterHandler} marginRight="3px">
+            Clear All Filters
+          </Button>
+          <Button onClick={setFilterHandler}>Set Filters</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
