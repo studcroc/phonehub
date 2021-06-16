@@ -1,7 +1,12 @@
 import { Box, Button, Heading, Text } from "@chakra-ui/react";
 import React from "react";
+import { useAppSelector } from "../../../../app/hooks";
 
 const CartSummary = () => {
+  const cartTotal = useAppSelector((state) =>
+    state.cart.items.reduce((total, item) => total + item.price * item.qty, 0)
+  );
+
   return (
     <Box
       display="flex"
@@ -19,7 +24,7 @@ const CartSummary = () => {
       </Heading>
       <Box display="flex" flexDirection="row" justifyContent="space-between">
         <Heading size="sm">Total</Heading>
-        <Text>$ 420.69</Text>
+        <Text>$ {cartTotal}</Text>
       </Box>
       <Box display="flex" flexDirection="row" justifyContent="space-between">
         <Heading size="sm">Address</Heading>

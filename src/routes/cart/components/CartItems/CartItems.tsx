@@ -5,6 +5,7 @@ import CartItemCard from "./CartItemCard";
 
 const CartItems = () => {
   const items = useAppSelector((state) => state.cart.items);
+  const itemCards = items.map((item) => <CartItemCard {...item} />);
 
   return (
     <Box
@@ -18,10 +19,7 @@ const CartItems = () => {
       <Heading size="md" margin="3">
         Your Cart
       </Heading>
-      <CartItemCard />
-      <CartItemCard />
-      <CartItemCard />
-      <CartItemCard />
+      {itemCards}
     </Box>
   );
 };

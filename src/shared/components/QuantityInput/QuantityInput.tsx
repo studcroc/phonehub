@@ -37,19 +37,20 @@ export const QuantityInput = (props: QuantityInputProps) => {
         max={10}
         value={qty}
         contentEditable={false}
+        keepWithinRange={true}
       >
         <NumberInputField />
         <NumberInputStepper>
           <NumberIncrementStepper
             onClick={() => {
-              dispatch(increaseQuantity(props.id));
+              if ((qty as number) < 10) dispatch(increaseQuantity(props.id));
             }}
           >
             +
           </NumberIncrementStepper>
           <NumberDecrementStepper
             onClick={() => {
-              dispatch(decreaseQuantity(props.id));
+              if ((qty as number) > 1) dispatch(decreaseQuantity(props.id));
             }}
           >
             -

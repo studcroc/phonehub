@@ -2,79 +2,80 @@ import { Box, Heading, IconButton, Image, Text } from "@chakra-ui/react";
 import React from "react";
 import { IoClose } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { useAppDispatch } from "../../../../app/hooks";
+import { removeFromCart } from "../../../../app/state/slices/cart.slice";
 import { CartItem } from "../../../../app/types";
 import { QuantityInput } from "../../../../shared/components/QuantityInput/QuantityInput";
 
-// interface CartItemCardProps {
-//   product: CartItem;
-// }
+const CartItemCard = (props: CartItem) => {
+  const dispatch = useAppDispatch();
 
-const CartItemCard = () => {
   return (
-    <Link to={`/details/${1}`}>
-      <Box
-        padding="8px"
-        transition="124ms ease-in-out"
-        border="rgba(0, 0, 0, 0.2) solid 1px"
-        borderRadius="7px"
-        cursor="pointer"
-        _hover={{ boxShadow: "rgba(4, 30, 66, 0.5) 0 0 4px" }}
-        display="flex"
-        flexDirection="row"
-        margin="5px 0"
-      >
+    <Box
+      padding="8px"
+      transition="124ms ease-in-out"
+      border="rgba(0, 0, 0, 0.2) solid 1px"
+      borderRadius="7px"
+      _hover={{ boxShadow: "rgba(4, 30, 66, 0.5) 0 0 4px" }}
+      display="flex"
+      flexDirection="row"
+      margin="5px 0"
+    >
+      <Link to={`/details/${props.id}`}>
         <Image
           maxWidth="120px"
           maxHeight="120px"
           marginBottom={{ sm: "4px", md: "8px" }}
-          src="https://cdn.pocket-lint.com/r/s/970x/assets/images/68241-phones-review-nokia-6680-mobile-phone-image1-bKaOgE5RsJ.jpg"
+          src={props.image}
         />
-        <Box
-          display="flex"
-          flexDirection="column"
-          justifyContent="space-between"
-          padding="0"
-          paddingLeft="15px"
-          flex="1"
-        >
-          <Box
-            display="flex"
-            flexDirection="row"
-            justifyContent="space-between"
-          >
+      </Link>
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="space-between"
+        padding="0"
+        paddingLeft="15px"
+        flex="1"
+      >
+        <Box display="flex" flexDirection="row" justifyContent="space-between">
+          <Link to={`/details/${props.id}`}>
             <Heading as="h3" size="md" marginBottom="24px">
-              Nokia 6680 Mobile Phone
+              {`${props.brand} ${props.model}`}
             </Heading>
-            <IconButton aria-label="Remove item from cart" icon={<IoClose />} />
+          </Link>
+          <IconButton
+            aria-label="Remove item from cart"
+            icon={<IoClose />}
+            onClick={() => dispatch(removeFromCart(props.id))}
+          />
+        </Box>
+        <Box
+          flexDirection="row"
+          display="flex"
+          justifyContent="flex-end"
+          flexWrap="wrap"
+        >
+          <Box display="flex" flexDirection="row" margin="1">
+            <Heading size="sm" marginRight="2" alignSelf="center">
+              Quantity
+            </Heading>
+            <QuantityInput id={props.id} />
           </Box>
-          <Box
-            flexDirection="row"
-            display="flex"
-            justifyContent="flex-end"
-            flexWrap="wrap"
-          >
-            <Box display="flex" flexDirection="row" margin="1">
-              <Heading size="sm" marginRight="2" alignSelf="center">
-                Quantity
-              </Heading>
-              <QuantityInput id={1} />
-            </Box>
-            <Box display="flex" flexDirection="row" margin="2">
-              <Heading size="sm" marginRight="5">
-                Price
-              </Heading>
-              <Text>$69.99</Text>
-            </Box>
-            <Box display="flex" flexDirection="row" margin="2">
-              <Heading size="sm" marginRight="5">
-                Total
-              </Heading>
-              <Text>$420.69</Text>
-            </Box>
+          <Box display="flex" flexDirection="row" margin="2">
+            <Heading size="sm" marginRight="5">
+              Price
+            </Heading>
+            <Text>${props.price}</Text>
+          </Box>
+          <Box display="flex" flexDirection="row" margin="2">
+            <Heading size="sm" marginRight="5">
+              Total
+            </Heading>
+            <Text>${props.price * props.qty}</Text>
           </Box>
         </Box>
       </Box>
-    </Link>
+    </Box>
   );
 };
 
