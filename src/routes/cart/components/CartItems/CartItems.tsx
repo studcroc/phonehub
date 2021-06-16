@@ -5,7 +5,9 @@ import CartItemCard from "./CartItemCard";
 
 const CartItems = () => {
   const items = useAppSelector((state) => state.cart.items);
-  const itemCards = items.map((item) => <CartItemCard {...item} />);
+  const itemCards = items.map((item) => (
+    <CartItemCard {...item} key={`${item.id}CartList`} />
+  ));
 
   return (
     <Box
