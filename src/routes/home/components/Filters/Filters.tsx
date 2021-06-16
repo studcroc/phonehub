@@ -28,8 +28,11 @@ const Filters: FC = () => {
 
   useEffect(() => {
     const prices = productsList.map((item) => item.price);
-    setMinPrice(Math.min(...prices));
-    setMaxPrice(Math.max(...prices));
+    const min = Math.min(...prices);
+    const max = Math.max(...prices);
+    setMinPrice(min);
+    setMaxPrice(max);
+    setRange([min, max]);
   }, [productsList]);
 
   const { isOpen, onClose } = useDisclosure({
@@ -52,6 +55,7 @@ const Filters: FC = () => {
     }
   };
 
+  const [range, setRange] = useState([0, 0]);
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(1000);
 
@@ -91,6 +95,7 @@ const Filters: FC = () => {
               checkboxHandler={brandCheckboxHandler}
             />
             <PriceFilter
+              range={range}
               onMinChange={minPriceChangeHandler}
               min={minPrice}
               onMaxChange={maxPriceChangeHandler}
