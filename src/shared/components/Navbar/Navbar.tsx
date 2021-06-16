@@ -1,7 +1,8 @@
-import { Box, Container, Icon } from "@chakra-ui/react";
+import { Box, Container, Icon, Image } from "@chakra-ui/react";
 import React from "react";
-import { BiHomeSmile } from "react-icons/bi";
 import { IoCartOutline } from "react-icons/io5";
+import Logo from "../../../assets/logo.png";
+import { ToolBar } from "../../../routes/home/components/ToolBar/ToolBar";
 import "./Navbar.css";
 
 type NavbarProps = {};
@@ -9,24 +10,32 @@ type NavbarProps = {};
 export const Navbar = (props: NavbarProps) => {
       
   return (
-    <Container
-      zIndex="1"
-      position="fixed"
-      left="0"
-      right="0"
-      top="0"
-      backgroundColor="grey"
-      height="50px"
-      maxWidth="100%"
+    <Container zIndex="1"
+    position="fixed"
+    left="0"
+    right="0"
+    top="0"
+    backgroundColor="#041E42"
+    maxWidth="100%"
+    paddingTop="6px"
+    paddingX="0"
+    boxShadow="rgba(0, 0, 0, 0.5) 0 0 11px"
+    >
+      <Container
+      marginBottom="8px"
       display="flex"
       alignItems="center"
       justifyContent="space-between"
+      maxWidth="100%"
     >
-      <Icon as={BiHomeSmile} fontSize="xx-large" cursor="pointer" />
+      {/* <Icon as={BiHomeSmile} fontSize="xx-large" cursor="pointer" color="white" /> */}
+      <Image src={Logo} height="40px" width="40px"/>
       <Box position="relative">
-        <Box position="absolute" right="-4px" top="-4px" backgroundColor="green" borderRadius="50%" height="18px" width="18px" display="flex" alignItems="center" justifyContent="center" color="white" padding="10px">1</Box>
-        <Icon as={IoCartOutline} fontSize="xx-large" cursor="pointer" />
+        <Box position="absolute" right="-4px" top="-4px" backgroundColor="#FFE500" borderRadius="50%" height="18px" width="18px" display="flex" alignItems="center" justifyContent="center" padding="10px">1</Box>
+        <Icon as={IoCartOutline} fontSize="xx-large" cursor="pointer" color="white" />
       </Box>
+    </Container>
+    <ToolBar />
     </Container>
   );
 };

@@ -1,13 +1,13 @@
 import {
-    Box,
-    Button,
-    Container,
-    Icon,
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuList,
-    Text
+  Box,
+  Button,
+  Container,
+  Icon,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Text
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { AiFillCaretDown } from "react-icons/ai";
@@ -30,17 +30,17 @@ export const ToolBar = (props: ToolBarProps) => {
   return (
     <Container
       display="flex"
-      backgroundColor="pink"
+      backgroundColor="#FFE500"
       maxWidth="100%"
       alignItems="center"
-      paddingY="4px"
+      paddingY="6px"
       paddingX={["4px", "24px"]}
       justifyContent="space-between"
-      marginBottom={["8px", "0"]}
+      marginBottom="0"
     >
       <Box display="flex" alignItems="center">
         <Text fontWeight="bold" marginRight="8px">
-          Sort By:{" "}
+          Sort By:
         </Text>
         <Menu>
           <MenuButton as={Button} rightIcon={<AiFillCaretDown />}>
