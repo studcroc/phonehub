@@ -8,11 +8,11 @@ const CartSummary = () => {
       flexDirection="column"
       justifyContent="space-around"
       maxWidth={["95%", "400px"]}
-      bgColor="gray.100"
       padding="10px"
       border="rgba(0, 0, 0, 0.2) solid 1px"
       borderRadius="7px"
-      maxHeight="300px"
+      margin="10px"
+      flex="1"
     >
       <Heading size="md" marginBottom="5">
         Cart Summary
