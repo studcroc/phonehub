@@ -5,7 +5,6 @@ import { Link, useLocation } from "react-router-dom";
 import { useAppSelector } from "../../../app/hooks";
 import Logo from "../../../assets/logo.png";
 import { ToolBar } from "../../../routes/home/components/ToolBar/ToolBar";
-import "./Navbar.css";
 
 type NavbarProps = {};
 

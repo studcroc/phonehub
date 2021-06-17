@@ -2,7 +2,6 @@ import { Container, Heading, Image, Text } from "@chakra-ui/react";
 import React from "react";
 import { Link } from "react-router-dom";
 import { ProductData } from "../../../../app/types";
-import "./ProductCard.css";
 
 type ProductCardProps = {
   product: ProductData;

@@ -5,7 +5,6 @@ import { fetchProductsList } from "../../../../app/state/slices/product.slice";
 import { ProductData } from "../../../../app/types";
 import Filters from "../Filters/Filters";
 import { ProductCard } from "../ProductCard/ProductCard";
-import "./HomeRoute.css";
 
 type HomeRouteProps = {};
 
