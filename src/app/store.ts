@@ -8,6 +8,7 @@ const initialProductState: ProductState = {
   arrived: false,
   displayed: [],
   productsList: [],
+  filteredList: [],
 };
 const initialHomeState: HomeState = {
   filterModalOpen: false,
