@@ -41,7 +41,6 @@ export const productSlice = createSlice({
         console.log(i.price);
         return i.price <= action.payload.max && i.price >= action.payload.min;
       });
-      // }
       console.log(products);
       state.displayed = products;
     },
@@ -66,7 +65,6 @@ export const productSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchProductsList.fulfilled, (state, action) => {
-        // console.log(action.payload.products);
         state.arrived = true;
         state.productsList = action.payload.products;
         state.displayed = action.payload.products;

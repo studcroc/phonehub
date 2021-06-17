@@ -6,9 +6,7 @@ import { useAppSelector } from "../../../app/hooks";
 import Logo from "../../../assets/logo.png";
 import { ToolBar } from "../../../routes/home/components/ToolBar/ToolBar";
 
-type NavbarProps = {};
-
-export const Navbar = (props: NavbarProps) => {
+export const Navbar = () => {
   let location = useLocation();
   const nCart = useAppSelector((state) => state.cart.items.length);
 
