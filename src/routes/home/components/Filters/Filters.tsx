@@ -69,13 +69,13 @@ const Filters: FC = () => {
   const setFilterHandler = () => {
     const min = minPrice;
     const max = maxPrice;
-    console.log("SetFilters", min, max);
+    // console.log("SetFilters", min, max);
     dispatch(setFilters({ brands: brands, min: min, max: max }));
     onClose();
   };
 
   const clearFilterHandler = () => {
-    console.log("Clear filters");
+    // console.log("Clear filters");
     selectBrands([]);
     setMinPrice(0);
     dispatch(clearFilters());

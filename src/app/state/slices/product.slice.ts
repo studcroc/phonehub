@@ -28,21 +28,21 @@ export const productSlice = createSlice({
       state,
       action: PayloadAction<{ brands: Array<string>; min: number; max: number }>
     ) => {
-      console.log(action.payload);
+      // console.log(action.payload);
 
       let products = state.productsList;
       if (action.payload.brands.length > 0) {
         products = products.filter((i) => {
-          console.log(i.brand);
+          // console.log(i.brand);
           return action.payload.brands.includes(i.brand);
         });
       }
 
       products = products.filter((i) => {
-        console.log(i.price);
+        // console.log(i.price);
         return i.price <= action.payload.max && i.price >= action.payload.min;
       });
-      console.log(products);
+      // console.log(products);
       state.filteredList = products;
       state.displayed = products;
     },
@@ -54,11 +54,11 @@ export const productSlice = createSlice({
       if (action.payload === "Select an option") {
         state.displayed = state.filteredList;
       } else if (action.payload === "Price (Low to High)") {
-        let products = state.filteredList;
+        let products = [...state.filteredList];
         products.sort((a, b) => (a.price > b.price ? 1 : -1));
         state.displayed = products;
       } else if (action.payload === "Price (High to Low)") {
-        let products = state.filteredList;
+        let products = [...state.filteredList];
         products.sort((a, b) => (a.price < b.price ? 1 : -1));
         state.displayed = products;
       }

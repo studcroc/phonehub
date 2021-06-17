@@ -1,5 +1,5 @@
-import { Container, Heading, Image, Text } from "@chakra-ui/react";
-import React from "react";
+import { Container, Heading, Image, Skeleton, Text } from "@chakra-ui/react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ProductData } from "../../../../app/types";
 
@@ -8,6 +8,8 @@ type ProductCardProps = {
 };
 
 export const ProductCard = (props: ProductCardProps) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
   return (
     <Link to={`/details/${props.product.id}`}>
       <Container
@@ -17,17 +19,20 @@ export const ProductCard = (props: ProductCardProps) => {
         borderRadius="7px"
         cursor="pointer"
         _hover={{ boxShadow: "rgba(4, 30, 66, 0.5) 0 0 4px" }}
-        maxH={["150px", "524px"]}
         width={["95%", "324px"]}
         display="flex"
+        position="relative"
+        alignItems={{ sm: "start", md: "center" }}
         flexDirection={{ sm: "row", md: "column" }}
       >
-        <Image
-          maxWidth={["124px", "100%"]}
-          marginBottom={{ sm: "4px", md: "8px" }}
-          src={props.product.image}
-          flex="1"
-        />
+        <Skeleton isLoaded={imageLoaded} marginBottom={{ sm: "4px", md: "8px" }}>
+          <Image
+            maxWidth={["124px", "100%"]}
+            src={props.product.image}
+            flex="1"
+            onLoad={() => setImageLoaded(true)}
+          />
+        </Skeleton>
         <Container
           display="flex"
           flexDirection="column"
