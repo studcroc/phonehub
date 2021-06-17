@@ -1,7 +1,9 @@
 import { Box, Button, Heading, Image, Text } from "@chakra-ui/react";
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useAppSelector } from "../../../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
+import { addToCart } from "../../../../app/state/slices/cart.slice";
+import { ProductData } from "../../../../app/types";
 import "./ProductDetailsRoute.css";
 
 type ProductDetailsRouteProps = {};
@@ -13,6 +15,8 @@ export const ProductDetailsRoute = (props: ProductDetailsRouteProps) => {
     (value) => value.id.toString() === id
   );
 
+  const dispatch = useAppDispatch();
+
   return (
     <Box
       marginTop={["56px", "106px"]}
@@ -20,12 +24,7 @@ export const ProductDetailsRoute = (props: ProductDetailsRouteProps) => {
       display="flex"
       flexDirection={["column", "row"]}
     >
-      <Box
-        flex="1"
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-      >
+      <Box flex="1" display="flex" justifyContent="center" alignItems="center">
         <Image
           alt={`${selectedProduct?.model}`}
           src={`${selectedProduct?.image}`}
@@ -48,14 +47,23 @@ export const ProductDetailsRoute = (props: ProductDetailsRouteProps) => {
             fontWeight="light"
             marginBottom="24px"
           >{`${selectedProduct?.brand} `}</Heading>
-          <Text textAlign={["justify", "start"]} maxW={["full", "70%"]}>{`${selectedProduct?.description}`}</Text>
+          <Text
+            textAlign={["justify", "start"]}
+            maxW={["full", "70%"]}
+          >{`${selectedProduct?.description}`}</Text>
         </Box>
         <Box display="flex" alignItems="center" marginTop={["24px", "auto"]}>
           <Heading
             as="h3"
             fontSize="xxx-large"
           >{`$${selectedProduct?.price}`}</Heading>
-            <Button colorScheme="blue" marginLeft="24px">Add to Cart</Button>
+          <Button
+            colorScheme="blue"
+            marginLeft="24px"
+            onClick={() => dispatch(addToCart(selectedProduct as ProductData))}
+          >
+            Add to Cart
+          </Button>
         </Box>
       </Box>
     </Box>
