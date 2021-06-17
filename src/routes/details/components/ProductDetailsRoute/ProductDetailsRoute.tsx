@@ -5,9 +5,7 @@ import { useAppSelector } from "../../../../app/hooks";
 import { ProductDetailsImage } from "../ProductDetailsImage/ProductDetailsImage";
 import { ProductDetailsInfo } from "../ProductDetailsInfo/ProductDetailsInfo";
 
-type ProductDetailsRouteProps = {};
-
-export const ProductDetailsRoute = (props: ProductDetailsRouteProps) => {
+export const ProductDetailsRoute = () => {
   let { id }: any = useParams();
   const productList = useAppSelector((state) => state.product.productsList);
   const selectedProduct = productList.find(

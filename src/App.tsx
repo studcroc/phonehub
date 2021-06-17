@@ -1,11 +1,19 @@
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import './App.css';
-import { CartRoute } from './routes/cart/components/CartRoute/CartRoute';
-import { ProductDetailsRoute } from './routes/details/components/ProductDetailsRoute/ProductDetailsRoute';
-import { HomeRoute } from './routes/home/components/HomeRoute/HomeRoute';
-import { Navbar } from './shared/components/Navbar/Navbar';
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { useAppDispatch } from "./app/hooks";
+import { CartRoute } from "./routes/cart/components/CartRoute/CartRoute";
+import { ProductDetailsRoute } from "./routes/details/components/ProductDetailsRoute/ProductDetailsRoute";
+import { HomeRoute } from "./routes/home/components/HomeRoute/HomeRoute";
+import { Navbar } from "./shared/components/Navbar/Navbar";
+import React, { FC, useEffect } from "react";
+import { fetchProductsList } from "./app/state/slices/product.slice";
 
-function App() {
+const App: FC = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProductsList());
+  }, [dispatch]);
+
   return (
     <BrowserRouter>
       <Navbar />
@@ -22,6 +30,6 @@ function App() {
       </Switch>
     </BrowserRouter>
   );
-}
+};
 
 export default App;

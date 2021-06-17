@@ -1,19 +1,26 @@
-import { Box, Image } from '@chakra-ui/react';
-import React from 'react';
-import { ProductData } from '../../../../app/types';
+import { Box, Image, Skeleton } from "@chakra-ui/react";
+import React, { useState } from "react";
+import { ProductData } from "../../../../app/types";
 
 type ProductDetailsImageProps = {
-    selectedProduct: ProductData | undefined,
-}
+  selectedProduct: ProductData | undefined;
+};
 
 export const ProductDetailsImage = (props: ProductDetailsImageProps) => {
-    return (
-        <Box flex="1" display="flex" justifyContent="center" alignItems="center">
+  const [srcLoaded, setSrcLoaded] = useState(false);
+  return (
+    <Box flex="1" display="flex" justifyContent="center" alignItems="center">
+      <Skeleton isLoaded={srcLoaded} width="100%" height={["65vh", "75vh"]}>
         <Image
+          onLoad={() => {
+            setSrcLoaded(true);
+          }}
           alt={`${props.selectedProduct?.model}`}
           src={`${props.selectedProduct?.image}`}
-          width="100%"
+          width={["100%", "auto"]}
+          height={["auto", "75vh"]}
         />
-      </Box>
-    );
-}
+      </Skeleton>
+    </Box>
+  );
+};

@@ -7,7 +7,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  Text
+  Text,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { AiFillCaretDown } from "react-icons/ai";
@@ -16,9 +16,7 @@ import { useAppDispatch } from "../../../../app/hooks";
 import { setFilterModalOpen } from "../../../../app/state/slices/home.slice";
 import { sortProducts } from "../../../../app/state/slices/product.slice";
 
-type ToolBarProps = {};
-
-export const ToolBar = (props: ToolBarProps) => {
+export const ToolBar = () => {
   const [sortOption, setSortOption] = useState("Select an option");
 
   const dispatch = useAppDispatch();
@@ -46,13 +44,28 @@ export const ToolBar = (props: ToolBarProps) => {
             {sortOption}
           </MenuButton>
           <MenuList>
-            <MenuItem onClick={() => { setSortOption("Select an option"); dispatch(sortProducts("Select an option")); }}>
+            <MenuItem
+              onClick={() => {
+                setSortOption("Select an option");
+                dispatch(sortProducts("Select an option"));
+              }}
+            >
               Select an option
             </MenuItem>
-            <MenuItem onClick={() => { setSortOption("Price (Low to High)"); dispatch(sortProducts("Price (Low to High)")); }}>
+            <MenuItem
+              onClick={() => {
+                setSortOption("Price (Low to High)");
+                dispatch(sortProducts("Price (Low to High)"));
+              }}
+            >
               Price (Low to High)
             </MenuItem>
-            <MenuItem onClick={() => { setSortOption("Price (High to Low)"); dispatch(sortProducts("Price (High to Low)")); }}>
+            <MenuItem
+              onClick={() => {
+                setSortOption("Price (High to Low)");
+                dispatch(sortProducts("Price (High to Low)"));
+              }}
+            >
               Price (High to Low)
             </MenuItem>
           </MenuList>
