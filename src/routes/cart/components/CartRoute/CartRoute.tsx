@@ -1,7 +1,6 @@
 import { Container } from "@chakra-ui/react";
 import CartItems from "../CartItems/CartItems";
 import CartSummary from "../CartSummary/CartSummary";
-import "./CartRoute.css";
 
 export const CartRoute = () => {
   return (

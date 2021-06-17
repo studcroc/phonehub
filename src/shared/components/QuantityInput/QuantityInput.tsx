@@ -4,15 +4,13 @@ import {
   NumberIncrementStepper,
   NumberInput,
   NumberInputField,
-  NumberInputStepper,
+  NumberInputStepper
 } from "@chakra-ui/react";
 import React from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import {
-  increaseQuantity,
-  decreaseQuantity,
+  decreaseQuantity, increaseQuantity
 } from "../../../app/state/slices/cart.slice";
-import "./QuantityInput.css";
 
 type QuantityInputProps = {
   id: number;

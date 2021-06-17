@@ -15,7 +15,6 @@ import { IoFilterSharp } from "react-icons/io5";
 import { useAppDispatch } from "../../../../app/hooks";
 import { setFilterModalOpen } from "../../../../app/state/slices/home.slice";
 import { sortProducts } from "../../../../app/state/slices/product.slice";
-import "./ToolBar.css";
 
 type ToolBarProps = {};
 

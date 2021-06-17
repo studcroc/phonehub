@@ -66,7 +66,7 @@ export const productSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchProductsList.fulfilled, (state, action) => {
-        console.log(action.payload.products);
+        // console.log(action.payload.products);
         state.arrived = true;
         state.productsList = action.payload.products;
         state.displayed = action.payload.products;
