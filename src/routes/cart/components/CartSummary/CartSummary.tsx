@@ -29,9 +29,9 @@ const CartSummary = () => {
       <Box display="flex" flexDirection="row" justifyContent="space-between">
         <Heading size="sm">Address</Heading>
         <Box display="flex" flexDirection="column">
-          <Text>Line 1</Text>
-          <Text>Line 2</Text>
-          <Text>Line 3</Text>
+          <Text>BASEURL: http://localhost</Text>
+          <Text>PORT: 3000</Text>
+          <Text>ROUTE: /</Text>
         </Box>
       </Box>
       <Button width="98%" colorScheme="blue" marginTop="5">
