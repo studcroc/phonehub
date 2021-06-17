@@ -6,6 +6,7 @@ const initialProductState: ProductState = {
   productsList: [],
   displayed: [],
   arrived: false,
+  filteredList: [],
 };
 
 export const fetchProductsList = createAsyncThunk(
@@ -42,23 +43,24 @@ export const productSlice = createSlice({
         return i.price <= action.payload.max && i.price >= action.payload.min;
       });
       console.log(products);
+      state.filteredList = products;
       state.displayed = products;
     },
     clearFilters: (state) => {
+      state.filteredList = state.productsList;
       state.displayed = state.productsList;
     },
     sortProducts: (state, action: PayloadAction<String>) => {
       if (action.payload === "Select an option") {
-        state.displayed = state.productsList;
+        state.displayed = state.filteredList;
       } else if (action.payload === "Price (Low to High)") {
-        let products = state.displayed;
+        let products = state.filteredList;
         products.sort((a, b) => (a.price > b.price ? 1 : -1));
         state.displayed = products;
       } else if (action.payload === "Price (High to Low)") {
-        let products = state.displayed;
+        let products = state.filteredList;
         products.sort((a, b) => (a.price < b.price ? 1 : -1));
-      } else {
-        state.displayed = state.productsList;
+        state.displayed = products;
       }
     },
   },
@@ -68,6 +70,7 @@ export const productSlice = createSlice({
         state.arrived = true;
         state.productsList = action.payload.products;
         state.displayed = action.payload.products;
+        state.filteredList = action.payload.products;
       })
       .addCase(fetchProductsList.pending, (state) => {
         state.productsList = [];

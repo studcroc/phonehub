@@ -6,8 +6,9 @@ import {
   SkeletonText,
   Text,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import { useAppDispatch } from "../../../../app/hooks";
+import React, { useEffect, useState, MouseEventHandler } from "react";
+import { Link } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import { addToCart } from "../../../../app/state/slices/cart.slice";
 import { ProductData } from "../../../../app/types";
 
@@ -17,11 +18,40 @@ type ProductDetailsInfoProps = {
 
 export const ProductDetailsInfo = (props: ProductDetailsInfoProps) => {
   const dispatch = useAppDispatch();
+
   const [loaded, setLoaded] = useState(false);
   useEffect(() => {
     if (props.selectedProduct === undefined) setLoaded(false);
     else setLoaded(true);
   }, [props]);
+  const cart = useAppSelector((state) => state.cart);
+
+  const isProductAlreadyPresentInCart: Function = (): boolean => {
+    let cartItems = cart.items;
+    let isAlreadyPresentInCart = false;
+    cartItems.forEach((cartItem) => {
+      if (cartItem.id === props.selectedProduct?.id) {
+        isAlreadyPresentInCart = true;
+        return;
+      }
+    });
+    return isAlreadyPresentInCart;
+  };
+
+  const getButtonText: Function = (): string => {
+    if (isProductAlreadyPresentInCart()) {
+      return "Go To Cart";
+    } else {
+      return "Add To Cart";
+    }
+  };
+
+  const handleAddToCart: MouseEventHandler<HTMLElement> = (): void => {
+    if (isProductAlreadyPresentInCart()) {
+    } else {
+      dispatch(addToCart(props.selectedProduct as ProductData));
+    }
+  };
 
   return (
     <Box
@@ -36,7 +66,6 @@ export const ProductDetailsInfo = (props: ProductDetailsInfoProps) => {
         <Skeleton isLoaded={loaded}>
           <Heading as="h1">{`${props.selectedProduct?.model}`}</Heading>
         </Skeleton>
-
         <Skeleton isLoaded={loaded}>
           <Heading
             as="h2"
@@ -59,15 +88,15 @@ export const ProductDetailsInfo = (props: ProductDetailsInfoProps) => {
             fontSize="xxx-large"
           >{`$${props.selectedProduct?.price}`}</Heading>
         </Skeleton>
-        <Button
-          colorScheme="blue"
-          marginLeft="24px"
-          onClick={() =>
-            dispatch(addToCart(props.selectedProduct as ProductData))
-          }
-        >
-          Add to Cart
-        </Button>
+        <Link to={isProductAlreadyPresentInCart() ? "/cart" : "#"}>
+          <Button
+            colorScheme="blue"
+            marginLeft="24px"
+            onClick={handleAddToCart}
+          >
+            {getButtonText()}
+          </Button>
+        </Link>
       </Box>
     </Box>
   );

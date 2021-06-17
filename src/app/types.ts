@@ -15,6 +15,7 @@ export interface ProductState {
   productsList: Array<ProductData>;
   displayed: Array<ProductData>;
   arrived: boolean;
+  filteredList: Array<ProductData>,
 }
 
 export interface HomeState {
