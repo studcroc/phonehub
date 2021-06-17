@@ -1,8 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-interface HomeState {
-  filterModalOpen: boolean;
-}
+import { HomeState } from "../../types";
 
 const initialState: HomeState = {
   filterModalOpen: false,

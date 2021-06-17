@@ -1,12 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axiosPH from "../../../axios/axiosPH";
-import { ProductData } from "../../types";
-
-interface ProductState {
-  productsList: Array<ProductData>;
-  displayed: Array<ProductData>;
-  arrived: boolean;
-}
+import { ProductData, ProductState } from "../../types";
 
 const initialProductState: ProductState = {
   productsList: [],

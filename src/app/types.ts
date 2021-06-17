@@ -10,3 +10,23 @@ export interface ProductData {
 export interface CartItem extends ProductData {
   qty: number;
 }
+
+export interface ProductState {
+  productsList: Array<ProductData>;
+  displayed: Array<ProductData>;
+  arrived: boolean;
+}
+
+export interface HomeState {
+  filterModalOpen: boolean;
+}
+
+export interface CartState {
+  items: Array<CartItem>;
+}
+
+export interface AppState {
+  product: ProductState,
+  home: HomeState,
+  cart: CartState,
+}
